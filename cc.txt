@@ -1,0 +1,219 @@
+Practical:3(Restfull Web Service)
+
+1)StringOperation.java
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/GenericResource.java to edit this template
+ */
+package StringOperationPackage;
+
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PUT;
+import javax.ws.rs.core.MediaType;
+
+/**
+ * REST Web Service
+ *
+ * @author NITESH
+ */
+@Path("generic")
+public class StringOperations {
+
+    @Context
+    private UriInfo context;
+
+    /**
+     * Creates a new instance of StringOperations
+     */
+    public StringOperations() {
+    }
+
+    /**
+     * Retrieves representation of an instance of StringOperationPackage.StringOperations
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public String getHtml() {
+        //TODO return proper representation object
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * PUT method for updating or creating an instance of StringOperations
+     * @param content representation for the resource
+     */
+    @PUT
+    @Consumes(MediaType.TEXT_HTML)
+    public void putHtml(String content) {
+    }
+    
+    @PUT
+    @Consumes(MediaType.TEXT_HTML)
+    @Path("/Uppercase")
+    public String toUppercaseMethod(String str)
+    {
+        return str.toUpperCase();
+    }
+    @PUT
+    @Consumes(MediaType.TEXT_HTML)
+     @Path("/Lowercase")
+    public String toLowercaseMethod(String str)
+    {
+        return str.toLowerCase();
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------
+
+Aim:devlop Application to download image/video
+
+1)DownloadImage1.ismx.cs
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Web;
+using System.Web.Services;
+
+namespace DownloadImageFromWS2
+{
+    /// <summary>
+    /// Summary description for DownloadImage2
+    /// </summary>
+    [WebService(Namespace = "http://tempuri.org/")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
+    // [System.Web.Script.Services.ScriptService]
+    public class DownloadImage2 : System.Web.Services.WebService
+    {
+
+        [WebMethod]
+        public string HelloWorld()
+        {
+            return "Hello World";
+        }
+
+        [WebMethod,Description("Get Image Content")]
+        public byte[] GetImageFile(string fileName)
+        {
+            if(System.IO.File.Exists(Server.MapPath("~/Images/") + fileName))
+            {
+                return System.IO.File.ReadAllBytes(Server.MapPath("~/Images/") + fileName);
+            }
+            else
+            {
+                return new byte[] { 0 };
+            }
+
+        }
+    }
+}
+
+2)DownloadImage2.ismx.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace DownloadImageFromWS2
+{
+    public partial class DownloadImage3 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btn2_Click(object sender, EventArgs e)
+        {
+            Image1.ImageUrl = "~/MyHandler2.ashx?fileName=" + txt2.Text;
+            Response.Write("Dowloading of Image is Done");
+        }
+    }
+}
+
+
+3)MyHandler.ashx.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace DownloadImageFromWS2
+{
+    /// <summary>
+    /// Summary description for MyHandler2
+    /// </summary>
+    public class MyHandler2 : IHttpHandler
+    {
+
+        public void ProcessRequest(HttpContext context)
+        {
+            DownloadImage2 ws = new DownloadImage2();
+            byte[] binImage = ws.GetImageFile(context.Request["fileName"]);
+            if (binImage.Length == 1)
+            {
+
+            }
+            else
+            {
+                context.Response.ContentType = "image/jpeg";
+                context.Response.BinaryWrite(binImage);
+            }
+
+
+        }
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Virtualization practical
+
+sudo su
+
+sudo grep -c "svm\|vmx" /proc/cpuinfo
+
+cat /proc/cpuinfo
+
+sudo apt-get install qemu-kvm libvirt
+
+sudo adduser rait
+
+sudo apt install qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+
+sudo virt-manager
+
+
+
+
+
+
+
+
+
+
+
+
+    
